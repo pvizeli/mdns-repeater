@@ -78,7 +78,7 @@ void log_message(int loglevel, char *fmt_str, ...)
     buf[2047] = 0;
 
     if (foreground) {
-        fprintf(stderr, "%s: %s\n", PACKAGE, buf);
+        printf("%s (%d): %s\n", PACKAGE, loglevel, buf);
     } else {
         syslog(loglevel, "%s", buf);
     }
@@ -480,9 +480,8 @@ int main(int argc, char *argv[])
             if (self_generated_packet)
                 continue;
 
-            if (foreground)
-                printf("data from=%s size=%ld\n", inet_ntoa(fromaddr.sin_addr),
-                       recvsize);
+            log_message(LOG_DEBUG, "data from=%s size=%ld\n",
+                        inet_ntoa(fromaddr.sin_addr), recvsize);
 
             for (j = 0; j < num_socks; j++) {
                 // do not repeat packet back to the same network from which it
@@ -491,8 +490,8 @@ int main(int argc, char *argv[])
                     socks[j].net.s_addr)
                     continue;
 
-                if (foreground)
-                    printf("repeating data to %s\n", socks[j].ifname);
+                log_message(LOG_DEBUG, "repeating data to %s\n",
+                            socks[j].ifname);
 
                 // repeat data
                 ssize_t sentsize =

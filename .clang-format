@@ -1,0 +1,7 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+BreakBeforeBraces: Linux
+AlwaysBreakTemplateDeclarations: true
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: true

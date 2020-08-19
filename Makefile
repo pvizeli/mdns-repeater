@@ -1,13 +1,13 @@
 # Makefile for mdns-repeater
 
 
-ZIP_NAME = mdns-repeater-$(VCSVERSION)
+ZIP_NAME = mdns-repeater-$(VERSION)
 
 ZIP_FILES = mdns-repeater	\
 			README.txt		\
 			LICENSE.txt
 
-VCSVERSION=$(shell git describe --dirty="-SNAPSHOT" --always --tags)
+VERSION=$(shell git rev-parse HEAD )
 
 CFLAGS=-Wall
 
@@ -18,7 +18,7 @@ CFLAGS+= -Os
 LDFLAGS+= -s
 endif
 
-CFLAGS+= -DVCSVERSION="\"${VCSVERSION}\""
+CFLAGS+= -DVERSION="\"${VERSION}\""
 
 .PHONY: all clean
 
@@ -40,7 +40,7 @@ zip: mdns-repeater
 # version checking rules
 .PHONY: dummy
 _version: dummy
-	@echo $(VCSVERSION) | cmp -s $@ - || echo $(VCSVERSION) > $@
+	@echo $(VERSION) | cmp -s $@ - || echo $(VERSION) > $@
 
 clean:
 	-$(RM) *.o

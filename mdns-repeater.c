@@ -78,7 +78,7 @@ void log_message(int loglevel, char *fmt_str, ...)
     buf[2047] = 0;
 
     if (foreground) {
-        printf("%s (%d): %s\n", PACKAGE, loglevel, buf);
+        fprintf(stderr, "%s (%d): %s\n", PACKAGE, loglevel, buf);
     } else {
         syslog(loglevel, "%s", buf);
     }
@@ -213,7 +213,7 @@ static int create_send_sock(int recv_sockfd, const char *ifname,
     char *addr_str = strdup(inet_ntoa(sockdata->addr));
     char *mask_str = strdup(inet_ntoa(sockdata->mask));
     char *net_str  = strdup(inet_ntoa(sockdata->net));
-    log_message(LOG_DEBUG, "dev %s addr %s mask %s net %s", ifr.ifr_name,
+    log_message(LOG_INFO, "dev %s addr %s mask %s net %s", ifr.ifr_name,
                 addr_str, mask_str, net_str);
     free(addr_str);
     free(mask_str);
@@ -331,7 +331,7 @@ static void show_help(const char *progname)
             "\n"
             " flags:\n"
             "	-f	runs in foreground for debugging\n"
-            "   -l  loglevel (default: 6 / INFO)"
+            "   -l  loglevel (default: 6 / INFO)\n"
             "	-p	specifies the pid file path (default: " PIDFILE ")\n"
             "	-h	shows this help\n"
             "\n");
